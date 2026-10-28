@@ -19,42 +19,88 @@ const ConfirmModal = ({
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onCancel();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onCancel]);
+
   if (!isOpen) return null;
 
   return (
-    <div
-      className="modal-overlay"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="confirm-modal-title"
-      onClick={onCancel}
-    >
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h3 id="confirm-modal-title" className="modal-title">
-          {title}
-        </h3>
-        <p className="modal-body">{message}</p>
-        <div className="modal-actions">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={onCancel}
-            disabled={isLoading}
-          >
-            {cancelText}
-          </button>
-          <button
-            ref={confirmBtnRef}
-            type="button"
-            className={`btn ${isDangerous ? "btn-danger" : "btn-primary"}`}
-            onClick={onConfirm}
-            disabled={isLoading}
-          >
-            {isLoading ? "Deleting..." : confirmText}
-          </button>
+    <>
+      <div
+        className="modal d-block"
+        tabIndex="-1"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirm-modal-title"
+        onClick={onCancel}
+        style={{ backgroundColor: "transparent" }}
+      >
+        <div
+          className="modal-dialog modal-dialog-centered"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="modal-content rounded-4 shadow border">
+            <div className="modal-header border-bottom-0 pb-0">
+              <h5 className="modal-title fw-bold" id="confirm-modal-title">
+                {title}
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                aria-label="Close"
+                onClick={onCancel}
+                disabled={isLoading}
+              />
+            </div>
+            <div className="modal-body text-body-secondary py-3">
+              <p className="mb-0">{message}</p>
+            </div>
+            <div className="modal-footer border-top-0 pt-0 gap-2">
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                onClick={onCancel}
+                disabled={isLoading}
+              >
+                {cancelText}
+              </button>
+              <button
+                ref={confirmBtnRef}
+                type="button"
+                className={`btn ${isDangerous ? "btn-primary" : "btn-primary"}`}
+                onClick={onConfirm}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    Deleting...
+                  </>
+                ) : (
+                  confirmText
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+      <div className="modal-backdrop fade show" />
+    </>
   );
 };
 

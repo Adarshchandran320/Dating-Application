@@ -49,48 +49,55 @@ const TagInput = ({
   };
 
   return (
-    <div className="form-group tag-input-container">
+    <div className="mb-3">
       {label && (
-        <label htmlFor={id} className="form-label">
+        <label htmlFor={id} className="form-label fw-semibold">
           {label}
-          {required && <span style={{ color: "var(--primary)", marginLeft: "4px" }}>*</span>}
+          {required && <span className="text-primary ms-1">*</span>}
         </label>
       )}
 
-      <div className="chips-wrapper" style={{ marginBottom: tags.length ? "8px" : "0" }}>
-        {tags.map((tag, idx) => (
-          <span key={tag} className="chip">
-            {tag}
-            <button
-              type="button"
-              className="chip-remove"
-              onClick={() => removeTag(idx)}
-              aria-label={`Remove ${tag}`}
+      {tags.length > 0 && (
+        <div className="d-flex flex-wrap gap-2 mb-2">
+          {tags.map((tag, idx) => (
+            <span
+              key={tag}
+              className="badge rounded-pill text-bg-info text-dark d-inline-flex align-items-center py-2 px-3 fw-medium"
             >
-              &times;
-            </button>
-          </span>
-        ))}
-      </div>
+              <span>{tag}</span>
+              <button
+                type="button"
+                className="tag-remove-btn"
+                onClick={() => removeTag(idx)}
+                aria-label={`Remove ${tag}`}
+              >
+                &times;
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
 
-      <div className="tag-input-box">
+      <div className="input-group">
         <input
           id={id}
           type="text"
           value={inputValue}
           list={datalistId}
-          placeholder={tags.length >= maxTags ? "Maximum tags reached" : placeholder}
+          placeholder={
+            tags.length >= maxTags ? "Maximum tags reached" : placeholder
+          }
           disabled={tags.length >= maxTags}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           onBlur={handleBlur}
-          className={`form-input ${error ? "is-invalid" : ""}`}
+          className={`form-control ${error ? "is-invalid" : ""}`}
           aria-invalid={!!error}
           aria-describedby={errorId}
         />
         <button
           type="button"
-          className="btn btn-secondary btn-sm"
+          className="btn btn-outline-secondary"
           onClick={() => addTag(inputValue)}
           disabled={!inputValue.trim() || tags.length >= maxTags}
         >
@@ -107,9 +114,9 @@ const TagInput = ({
       )}
 
       {error && (
-        <span id={errorId} className="form-error" role="alert">
+        <div id={errorId} className="invalid-feedback d-block" role="alert">
           {error}
-        </span>
+        </div>
       )}
     </div>
   );

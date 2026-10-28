@@ -11,29 +11,36 @@ const FormField = ({
   const errorId = error ? `${id}-error` : undefined;
   const hintId = hint ? `${id}-hint` : undefined;
 
+  const defaultInputClass =
+    children.type === "select"
+      ? "form-select"
+      : "form-control";
+
+  const existingClass = children.props.className || defaultInputClass;
+  const finalClass = `${existingClass} ${error ? "is-invalid" : ""}`.trim();
+
   return (
-    <div className="form-group">
-      <label htmlFor={id} className="form-label">
+    <div className="mb-3">
+      <label htmlFor={id} className="form-label fw-semibold">
         {label}
-        {required && <span style={{ color: "var(--primary)", marginLeft: "4px" }}>*</span>}
+        {required && <span className="text-primary ms-1">*</span>}
       </label>
       {React.cloneElement(children, {
         id,
         "aria-invalid": !!error,
-        "aria-describedby": [errorId, hintId].filter(Boolean).join(" ") || undefined,
-        className: `${children.props.className || "form-input"} ${
-          error ? "is-invalid" : ""
-        }`,
+        "aria-describedby":
+          [errorId, hintId].filter(Boolean).join(" ") || undefined,
+        className: finalClass,
       })}
       {hint && (
-        <span id={hintId} className="form-hint">
+        <div id={hintId} className="form-text text-body-secondary">
           {hint}
-        </span>
+        </div>
       )}
       {error && (
-        <span id={errorId} className="form-error" role="alert">
+        <div id={errorId} className="invalid-feedback d-block" role="alert">
           {error}
-        </span>
+        </div>
       )}
     </div>
   );

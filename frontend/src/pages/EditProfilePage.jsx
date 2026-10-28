@@ -93,25 +93,26 @@ const EditProfilePage = () => {
 
   if (notOwner) {
     return (
-      <div className="container" style={{ textAlign: "center", marginTop: "3rem" }}>
-        <Alert
-          type="danger"
-          message="You can only edit your own profile."
-        />
-        <Link to="/profiles" className="btn btn-secondary" style={{ marginTop: "1rem" }}>
-          Back to Profiles
-        </Link>
+      <div className="text-center py-5">
+        <div className="mx-auto" style={{ maxWidth: "500px" }}>
+          <Alert type="danger" message="You can only edit your own profile." />
+          <Link to="/profiles" className="btn btn-outline-secondary mt-3">
+            Back to Profiles
+          </Link>
+        </div>
       </div>
     );
   }
 
   if (fetchError) {
     return (
-      <div className="container" style={{ textAlign: "center", marginTop: "3rem" }}>
-        <Alert type="danger" message={fetchError} />
-        <Link to="/profiles" className="btn btn-secondary" style={{ marginTop: "1rem" }}>
-          Back to Profiles
-        </Link>
+      <div className="text-center py-5">
+        <div className="mx-auto" style={{ maxWidth: "500px" }}>
+          <Alert type="danger" message={fetchError} />
+          <Link to="/profiles" className="btn btn-outline-secondary mt-3">
+            Back to Profiles
+          </Link>
+        </div>
       </div>
     );
   }

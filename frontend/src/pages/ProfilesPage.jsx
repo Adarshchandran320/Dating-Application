@@ -36,11 +36,7 @@ const ProfilesPage = () => {
   }, []);
 
   useEffect(() => {
-    let isMounted = true;
     fetchProfiles();
-    return () => {
-      isMounted = false;
-    };
   }, [fetchProfiles]);
 
   const handleDeleteRequest = (id) => {
@@ -66,15 +62,15 @@ const ProfilesPage = () => {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem", marginBottom: "1.5rem" }}>
+      <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
         <div>
-          <h1 style={{ fontSize: "1.75rem", fontWeight: 800 }}>Explore Members</h1>
-          <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem" }}>
+          <h1 className="h2 fw-bold text-dark mb-1">Explore Members</h1>
+          <p className="text-body-secondary mb-0">
             Browse dating profiles and discover shared interests
           </p>
         </div>
-        <div style={{ display: "flex", gap: "0.5rem" }}>
-          <Link to="/filter" className="btn btn-secondary">
+        <div className="d-flex gap-2">
+          <Link to="/filter" className="btn btn-outline-secondary">
             Filter Profiles
           </Link>
           <Link to="/profiles/new" className="btn btn-primary">
@@ -92,11 +88,11 @@ const ProfilesPage = () => {
       )}
 
       {error && (
-        <div style={{ marginBottom: "1.5rem" }}>
+        <div className="mb-4">
           <Alert type="danger" message={error} />
           <button
             type="button"
-            className="btn btn-secondary btn-sm"
+            className="btn btn-outline-secondary btn-sm"
             onClick={fetchProfiles}
           >
             Retry
@@ -120,14 +116,15 @@ const ProfilesPage = () => {
       )}
 
       {!loading && !error && profiles.length > 0 && (
-        <div className="cards-grid">
+        <div className="row g-4">
           {profiles.map((profile) => (
-            <ProfileCard
-              key={profile.id}
-              profile={profile}
-              onDelete={handleDeleteRequest}
-              isDeleting={isDeleting && deleteTargetId === profile.id}
-            />
+            <div key={profile.id} className="col-12 col-md-6 col-xl-4">
+              <ProfileCard
+                profile={profile}
+                onDelete={handleDeleteRequest}
+                isDeleting={isDeleting && deleteTargetId === profile.id}
+              />
+            </div>
           ))}
         </div>
       )}

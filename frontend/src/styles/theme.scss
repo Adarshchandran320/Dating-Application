@@ -1,0 +1,55 @@
+// Palette: Classic Romance
+$primary:   #D72638;
+$secondary: #8B1E3F;
+$info:      #F8C8DC;
+$warning:   #F4E1C6;
+$light:     #FAF5F0;
+$dark:      #2B1A20;
+
+// Base
+$body-bg:    #FAF5F0;
+$body-color: #2B1A20;
+$link-color: #8B1E3F;
+$link-hover-color: #D72638;
+
+// Font
+$font-family-sans-serif: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$headings-font-weight: 700;
+
+// Shape
+$border-radius:    0.75rem;
+$border-radius-lg: 1rem;
+$card-bg:          #FFFFFF;
+$card-border-color: #F8C8DC;
+$card-cap-bg:      transparent;
+$input-focus-border-color: #D72638;
+$input-focus-box-shadow: 0 0 0 0.25rem rgba(215, 38, 56, 0.2);
+
+// Navbar
+$navbar-dark-color: rgba(255, 255, 255, 0.85);
+
+@import "bootstrap/scss/bootstrap";
+
+// Small custom additions (under ~40 lines in total)
+body {
+  background-image: linear-gradient(180deg, #FAF5F0 0%, #F8C8DC33 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.navbar-nav .nav-link.active {
+  color: #FAF5F0 !important;
+  background-color: rgba(248, 200, 220, 0.2);
+  border-radius: 0.5rem;
+}
+
+.tag-remove-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0 0 0 0.35rem;
+  cursor: pointer;
+  vertical-align: middle;
+}

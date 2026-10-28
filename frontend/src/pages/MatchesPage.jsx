@@ -34,11 +34,7 @@ const MatchesPage = () => {
   }, []);
 
   useEffect(() => {
-    let isMounted = true;
     fetchMatches();
-    return () => {
-      isMounted = false;
-    };
   }, [fetchMatches]);
 
   if (needsProfile) {
@@ -58,19 +54,19 @@ const MatchesPage = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: "1.5rem" }}>
-        <h1 style={{ fontSize: "1.75rem", fontWeight: 800 }}>Dating Match Suggestions</h1>
-        <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem" }}>
+      <div className="mb-4">
+        <h1 className="h3 fw-bold text-dark mb-1">Dating Match Suggestions</h1>
+        <p className="text-body-secondary small mb-0">
           Ranked by shared hobbies, favourite foods, and movie genres
         </p>
       </div>
 
       {error && (
-        <div style={{ marginBottom: "1.5rem" }}>
+        <div className="mb-4">
           <Alert type="danger" message={error} />
           <button
             type="button"
-            className="btn btn-secondary btn-sm"
+            className="btn btn-outline-secondary btn-sm"
             onClick={fetchMatches}
           >
             Retry
@@ -86,7 +82,7 @@ const MatchesPage = () => {
           title="No matches found yet"
           description="Try adding more hobbies, favourite foods, or movie genres to your profile to broaden your match overlap."
           action={
-            <Link to="/profiles" className="btn btn-secondary">
+            <Link to="/profiles" className="btn btn-outline-secondary">
               Browse All Profiles
             </Link>
           }
@@ -95,16 +91,17 @@ const MatchesPage = () => {
 
       {!loading && !error && matches.length > 0 && (
         <div>
-          <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", marginBottom: "0.5rem" }}>
+          <p className="text-body-secondary small mb-3">
             Found {matches.length} {matches.length === 1 ? "match" : "matches"} with overlapping preferences:
           </p>
-          <div className="cards-grid">
+          <div className="row g-4">
             {matches.map((profile) => (
-              <ProfileCard
-                key={profile.id}
-                profile={profile}
-                showMatchDetails={true}
-              />
+              <div key={profile.id} className="col-12 col-md-6 col-xl-4">
+                <ProfileCard
+                  profile={profile}
+                  showMatchDetails={true}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -114,3 +111,4 @@ const MatchesPage = () => {
 };
 
 export default MatchesPage;
+

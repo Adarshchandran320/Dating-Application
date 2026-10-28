@@ -26,121 +26,167 @@ const ProfileCard = ({
   } = profile;
 
   return (
-    <article className="profile-card" aria-labelledby={`profile-title-${id}`}>
-      <div className="profile-card-header">
-        <div>
-          <h3 id={`profile-title-${id}`} className="profile-name">
-            {name}
-          </h3>
-          <p className="profile-age-gender">
-            {age} years old &bull; {getGenderLabel(gender)}
-          </p>
+    <div className="card h-100 border shadow-sm rounded-4 overflow-hidden">
+      <div className="card-body p-4 d-flex flex-column">
+        <div className="d-flex justify-content-between align-items-start mb-2">
+          <div>
+            <h3 id={`profile-title-${id}`} className="card-title h5 fw-bold text-dark mb-1">
+              {name}
+            </h3>
+            <p className="text-body-secondary small mb-0">
+              {age} years old &bull; {getGenderLabel(gender)}
+            </p>
+          </div>
+          {showMatchDetails && match_score !== undefined && (
+            <span
+              className="badge text-bg-warning rounded-pill px-3 py-2 fw-bold text-dark shadow-sm"
+              title={`${match_score} shared preferences`}
+            >
+              {match_score} {match_score === 1 ? "Match" : "Matches"}
+            </span>
+          )}
         </div>
-        {showMatchDetails && match_score !== undefined && (
-          <span className="match-badge" title={`${match_score} shared preferences`}>
-            {match_score} {match_score === 1 ? "Match" : "Matches"}
-          </span>
+
+        <p className="fw-semibold text-primary small mb-2">{occupation}</p>
+
+        {bio && <p className="card-text small text-body-secondary fst-italic mb-3">"{bio}"</p>}
+
+        {showMatchDetails && (
+          <div className="bg-info-subtle border border-info-subtle rounded-3 p-3 mb-3 d-flex flex-column gap-2">
+            {common_hobbies.length > 0 && (
+              <div>
+                <div
+                  className="text-uppercase text-secondary fw-bold"
+                  style={{ fontSize: "0.72rem", letterSpacing: "0.05em" }}
+                >
+                  Shared Hobbies
+                </div>
+                <div className="d-flex flex-wrap gap-1 mt-1">
+                  {common_hobbies.map((item) => (
+                    <span key={item} className="badge rounded-pill text-bg-info text-dark">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {common_favourite_foods.length > 0 && (
+              <div>
+                <div
+                  className="text-uppercase text-secondary fw-bold"
+                  style={{ fontSize: "0.72rem", letterSpacing: "0.05em" }}
+                >
+                  Shared Foods
+                </div>
+                <div className="d-flex flex-wrap gap-1 mt-1">
+                  {common_favourite_foods.map((item) => (
+                    <span key={item} className="badge rounded-pill text-bg-warning text-dark">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {common_movie_genres.length > 0 && (
+              <div>
+                <div
+                  className="text-uppercase text-secondary fw-bold"
+                  style={{ fontSize: "0.72rem", letterSpacing: "0.05em" }}
+                >
+                  Shared Movie Genres
+                </div>
+                <div className="d-flex flex-wrap gap-1 mt-1">
+                  {common_movie_genres.map((item) => (
+                    <span key={item} className="badge rounded-pill text-bg-light border text-dark">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         )}
-      </div>
 
-      <p className="profile-occupation">{occupation}</p>
-
-      {bio && <p className="profile-bio">"{bio}"</p>}
-
-      {showMatchDetails && (
-        <div style={{ marginBottom: "1rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-          {common_hobbies.length > 0 && (
-            <div>
-              <p className="section-label">Shared Hobbies</p>
-              <div className="chips-wrapper">
-                {common_hobbies.map((item) => (
-                  <span key={item} className="chip chip-highlight">
-                    {item}
-                  </span>
-                ))}
-              </div>
+        <div className="mt-auto pt-3 border-top d-flex flex-column gap-2">
+          <div>
+            <div
+              className="text-uppercase text-secondary fw-bold"
+              style={{ fontSize: "0.72rem", letterSpacing: "0.05em" }}
+            >
+              Hobbies
             </div>
-          )}
-
-          {common_favourite_foods.length > 0 && (
-            <div>
-              <p className="section-label">Shared Foods</p>
-              <div className="chips-wrapper">
-                {common_favourite_foods.map((item) => (
-                  <span key={item} className="chip chip-highlight">
-                    {item}
-                  </span>
-                ))}
-              </div>
+            <div className="d-flex flex-wrap gap-1 mt-1">
+              {hobbies.map((item) => (
+                <span key={item} className="badge rounded-pill text-bg-info text-dark">
+                  {item}
+                </span>
+              ))}
             </div>
-          )}
-
-          {common_movie_genres.length > 0 && (
-            <div>
-              <p className="section-label">Shared Movie Genres</p>
-              <div className="chips-wrapper">
-                {common_movie_genres.map((item) => (
-                  <span key={item} className="chip chip-highlight">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      <div className="profile-sections">
-        <div>
-          <p className="section-label">Hobbies</p>
-          <div className="chips-wrapper">
-            {hobbies.map((item) => (
-              <span key={item} className="chip">
-                {item}
-              </span>
-            ))}
           </div>
-        </div>
 
-        <div>
-          <p className="section-label">Favourite Foods</p>
-          <div className="chips-wrapper">
-            {favourite_foods.map((item) => (
-              <span key={item} className="chip">
-                {item}
-              </span>
-            ))}
+          <div>
+            <div
+              className="text-uppercase text-secondary fw-bold"
+              style={{ fontSize: "0.72rem", letterSpacing: "0.05em" }}
+            >
+              Favourite Foods
+            </div>
+            <div className="d-flex flex-wrap gap-1 mt-1">
+              {favourite_foods.map((item) => (
+                <span key={item} className="badge rounded-pill text-bg-warning text-dark">
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div>
-          <p className="section-label">Movie Genres</p>
-          <div className="chips-wrapper">
-            {movie_genres.map((item) => (
-              <span key={item} className="chip">
-                {item}
-              </span>
-            ))}
+          <div>
+            <div
+              className="text-uppercase text-secondary fw-bold"
+              style={{ fontSize: "0.72rem", letterSpacing: "0.05em" }}
+            >
+              Movie Genres
+            </div>
+            <div className="d-flex flex-wrap gap-1 mt-1">
+              {movie_genres.map((item) => (
+                <span key={item} className="badge rounded-pill text-bg-light border text-dark">
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
       {is_owner && (
-        <div className="profile-card-actions">
-          <Link to={`/profiles/${id}/edit`} className="btn btn-secondary btn-sm">
+        <div className="card-footer bg-transparent border-top-0 pt-0 pb-3 px-4 d-flex gap-2 justify-content-end">
+          <Link to={`/profiles/${id}/edit`} className="btn btn-outline-secondary btn-sm">
             Edit
           </Link>
           <button
             type="button"
-            className="btn btn-danger btn-sm"
+            className="btn btn-outline-primary btn-sm"
             onClick={() => onDelete && onDelete(id)}
             disabled={isDeleting}
           >
-            {isDeleting ? "Deleting..." : "Delete"}
+            {isDeleting ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-1"
+                  role="status"
+                  aria-hidden="true"
+                />
+                Deleting...
+              </>
+            ) : (
+              "Delete"
+            )}
           </button>
         </div>
       )}
-    </article>
+    </div>
   );
 };
 

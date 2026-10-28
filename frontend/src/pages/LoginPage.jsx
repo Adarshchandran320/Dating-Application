@@ -64,73 +64,85 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="container" style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "85vh" }}>
-      <div className="form-card" style={{ width: "100%", maxWidth: "440px" }}>
-        <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-          <span style={{ fontSize: "2.5rem" }} role="img" aria-label="Heart Lock">
-            🔒
-          </span>
-          <h1 style={{ fontSize: "1.75rem", fontWeight: 800, marginTop: "0.5rem" }}>Welcome Back</h1>
-          <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>
-            Log in to view matches and manage your profile
-          </p>
-        </div>
+    <div className="container py-5">
+      <div className="row justify-content-center">
+        <div className="col-12 col-sm-10 col-md-7 col-lg-5">
+          <div className="card shadow-sm rounded-4 border">
+            <div className="card-body p-4 p-md-5">
+              <div className="text-center mb-4">
+                <span className="fs-1 d-block mb-1 text-primary">
+                  <i className="bi bi-heart-fill" aria-hidden="true"></i>
+                </span>
+                <h1 className="h3 fw-bold text-primary mb-1">HeartSync</h1>
+                <p className="text-body-secondary small mb-0">
+                  Log in to view matches and manage your profile
+                </p>
+              </div>
 
-        {errorMessage && <Alert type="danger" message={errorMessage} />}
+              {errorMessage && <Alert type="danger" message={errorMessage} />}
 
-        <form onSubmit={handleSubmit} noValidate>
-          <FormField
-            id="login-email"
-            label="Email Address"
-            required
-            error={clientErrors.email}
-          >
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="demo1@example.com"
-              autoComplete="email"
-            />
-          </FormField>
+              <form onSubmit={handleSubmit} noValidate>
+                <FormField
+                  id="login-email"
+                  label="Email Address"
+                  required
+                  error={clientErrors.email}
+                >
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="demo1@example.com"
+                    autoComplete="email"
+                  />
+                </FormField>
 
-          <FormField
-            id="login-password"
-            label="Password"
-            required
-            error={clientErrors.password}
-          >
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="••••••••"
-              autoComplete="current-password"
-            />
-          </FormField>
+                <FormField
+                  id="login-password"
+                  label="Password"
+                  required
+                  error={clientErrors.password}
+                >
+                  <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                  />
+                </FormField>
 
-          <button
-            type="submit"
-            className="btn btn-primary"
-            style={{ width: "100%", marginTop: "1rem" }}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Logging In..." : "Log In"}
-          </button>
-        </form>
+                <button
+                  type="submit"
+                  className="btn btn-primary w-100 py-2 mt-3 rounded-pill"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting && (
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                  )}
+                  {isSubmitting ? "Logging In..." : "Log In"}
+                </button>
+              </form>
 
-        <p style={{ textAlign: "center", marginTop: "1.5rem", fontSize: "0.9rem", color: "var(--text-secondary)" }}>
-          Don't have an account yet?{" "}
-          <Link to="/signup" style={{ color: "var(--primary)", fontWeight: 600 }}>
-            Sign up
-          </Link>
-        </p>
+              <p className="text-center text-body-secondary small mt-4 mb-0">
+                Don't have an account yet?{" "}
+                <Link to="/signup" className="text-primary fw-semibold text-decoration-none">
+                  Sign up
+                </Link>
+              </p>
 
-        <div style={{ marginTop: "1.5rem", padding: "0.75rem", background: "rgba(148, 163, 184, 0.08)", borderRadius: "var(--radius-md)", fontSize: "0.8rem", color: "var(--text-muted)" }}>
-          <p style={{ fontWeight: 600, color: "var(--text-secondary)", marginBottom: "4px" }}>Quick Demo Account:</p>
-          <code>demo1@example.com</code> / <code>DemoPass#123</code>
+              <div className="mt-4 p-3 bg-light rounded-3 small border text-body-secondary">
+                <p className="fw-semibold text-secondary mb-1">Quick Demo Account:</p>
+                <code>demo1@example.com</code> / <code>DemoPass#123</code>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -47,9 +47,9 @@ const ProfileForm = ({
           getGenres(),
         ]);
         setSuggestions({
-          hobbies: Array.isArray(hRes.data) ? hRes.data : hRes.data.results || [],
-          foods: Array.isArray(fRes.data) ? fRes.data : fRes.data.results || [],
-          genres: Array.isArray(gRes.data) ? gRes.data : gRes.data.results || [],
+          hobbies: Array.isArray(hRes.data) ? hRes.data : hRes.data?.results || [],
+          foods: Array.isArray(fRes.data) ? fRes.data : fRes.data?.results || [],
+          genres: Array.isArray(gRes.data) ? gRes.data : gRes.data?.results || [],
         });
       } catch {
         // Tag lookups are non-blocking suggestions
@@ -90,8 +90,8 @@ const ProfileForm = ({
   };
 
   return (
-    <form className="form-card" onSubmit={handleSubmit} noValidate>
-      <h2 style={{ marginBottom: "1.5rem", fontSize: "1.5rem", fontWeight: 700 }}>
+    <div className="card shadow-sm rounded-4 border p-4 p-md-5 mx-auto" style={{ maxWidth: "720px" }}>
+      <h2 className="h4 fw-bold text-dark mb-4">
         {isEdit ? "Edit Your Profile" : "Create Your Dating Profile"}
       </h2>
 
@@ -104,7 +104,7 @@ const ProfileForm = ({
               {existingProfileId && (
                 <Link
                   to={`/profiles/${existingProfileId}/edit`}
-                  style={{ color: "inherit", textDecoration: "underline", fontWeight: 700 }}
+                  className="fw-bold text-decoration-underline"
                 >
                   Click here to edit your existing profile.
                 </Link>
@@ -114,134 +114,170 @@ const ProfileForm = ({
         />
       )}
 
-      <FormField
-        id="profile-name"
-        label="Full Name"
-        required
-        error={getFieldError("name")}
-      >
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="e.g. Jordan Lee"
-        />
-      </FormField>
+      <form onSubmit={handleSubmit} noValidate>
+        <div className="row g-3">
+          <div className="col-12">
+            <FormField
+              id="profile-name"
+              label="Full Name"
+              required
+              error={getFieldError("name")}
+            >
+              <input
+                type="text"
+                name="name"
+                className="form-control"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="e.g. Jordan Lee"
+              />
+            </FormField>
+          </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-        <FormField
-          id="profile-age"
-          label="Age"
-          required
-          error={getFieldError("age")}
-        >
-          <input
-            type="number"
-            name="age"
-            min="18"
-            max="99"
-            value={formData.age}
-            onChange={handleChange}
-            placeholder="18 - 99"
-          />
-        </FormField>
+          <div className="col-12 col-md-6">
+            <FormField
+              id="profile-age"
+              label="Age"
+              required
+              error={getFieldError("age")}
+            >
+              <input
+                type="number"
+                name="age"
+                min="18"
+                max="99"
+                className="form-control"
+                value={formData.age}
+                onChange={handleChange}
+                placeholder="18 - 99"
+              />
+            </FormField>
+          </div>
 
-        <FormField
-          id="profile-gender"
-          label="Gender"
-          required
-          error={getFieldError("gender")}
-        >
-          <select
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            className="form-select"
-          >
-            {GENDER_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        </FormField>
-      </div>
+          <div className="col-12 col-md-6">
+            <FormField
+              id="profile-gender"
+              label="Gender"
+              required
+              error={getFieldError("gender")}
+            >
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className="form-select"
+              >
+                {GENDER_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </FormField>
+          </div>
 
-      <FormField
-        id="profile-occupation"
-        label="Occupation"
-        required
-        error={getFieldError("occupation")}
-      >
-        <input
-          type="text"
-          name="occupation"
-          value={formData.occupation}
-          onChange={handleChange}
-          placeholder="e.g. UX Designer / Student"
-        />
-      </FormField>
+          <div className="col-12">
+            <FormField
+              id="profile-occupation"
+              label="Occupation"
+              required
+              error={getFieldError("occupation")}
+            >
+              <input
+                type="text"
+                name="occupation"
+                className="form-control"
+                value={formData.occupation}
+                onChange={handleChange}
+                placeholder="e.g. UX Designer / Student"
+              />
+            </FormField>
+          </div>
 
-      <FormField
-        id="profile-bio"
-        label="About Me (Bio)"
-        hint="Max 500 characters. Tell others about your passions and personality."
-        error={getFieldError("bio")}
-      >
-        <textarea
-          name="bio"
-          rows="3"
-          maxLength="500"
-          value={formData.bio}
-          onChange={handleChange}
-          className="form-textarea"
-          placeholder="I love weekend road trips, indie games, and good conversation..."
-        />
-      </FormField>
+          <div className="col-12">
+            <FormField
+              id="profile-bio"
+              label="About Me (Bio)"
+              hint="Max 500 characters. Tell others about your passions and personality."
+              error={getFieldError("bio")}
+            >
+              <textarea
+                name="bio"
+                rows="3"
+                maxLength="500"
+                value={formData.bio}
+                onChange={handleChange}
+                className="form-control"
+                placeholder="I love weekend road trips, indie games, and good conversation..."
+              />
+            </FormField>
+          </div>
 
-      <TagInput
-        id="profile-hobbies"
-        label="Hobbies"
-        required
-        tags={formData.hobbies}
-        onChange={(tags) => handleTagsChange("hobbies", tags)}
-        suggestions={suggestions.hobbies}
-        error={getFieldError("hobbies")}
-        placeholder="Type a hobby and press Enter (e.g. hiking, gaming)"
-      />
+          <div className="col-12">
+            <TagInput
+              id="profile-hobbies"
+              label="Hobbies"
+              required
+              tags={formData.hobbies}
+              onChange={(tags) => handleTagsChange("hobbies", tags)}
+              suggestions={suggestions.hobbies}
+              error={getFieldError("hobbies")}
+              placeholder="Type a hobby and press Enter (e.g. hiking, gaming)"
+            />
+          </div>
 
-      <TagInput
-        id="profile-foods"
-        label="Favourite Foods"
-        required
-        tags={formData.favourite_foods}
-        onChange={(tags) => handleTagsChange("favourite_foods", tags)}
-        suggestions={suggestions.foods}
-        error={getFieldError("favourite_foods")}
-        placeholder="Type a favourite food and press Enter (e.g. sushi, tacos)"
-      />
+          <div className="col-12">
+            <TagInput
+              id="profile-foods"
+              label="Favourite Foods"
+              required
+              tags={formData.favourite_foods}
+              onChange={(tags) => handleTagsChange("favourite_foods", tags)}
+              suggestions={suggestions.foods}
+              error={getFieldError("favourite_foods")}
+              placeholder="Type a favourite food and press Enter (e.g. sushi, tacos)"
+            />
+          </div>
 
-      <TagInput
-        id="profile-genres"
-        label="Preferred Movie Genres"
-        required
-        tags={formData.movie_genres}
-        onChange={(tags) => handleTagsChange("movie_genres", tags)}
-        suggestions={suggestions.genres}
-        error={getFieldError("movie_genres")}
-        placeholder="Type a movie genre and press Enter (e.g. sci-fi, comedy)"
-      />
+          <div className="col-12">
+            <TagInput
+              id="profile-genres"
+              label="Preferred Movie Genres"
+              required
+              tags={formData.movie_genres}
+              onChange={(tags) => handleTagsChange("movie_genres", tags)}
+              suggestions={suggestions.genres}
+              error={getFieldError("movie_genres")}
+              placeholder="Type a movie genre and press Enter (e.g. sci-fi, comedy)"
+            />
+          </div>
 
-      <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem", justifyContent: "flex-end" }}>
-        <Link to="/profiles" className="btn btn-secondary">
-          Cancel
-        </Link>
-        <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-          {isSubmitting ? "Saving Profile..." : isEdit ? "Update Profile" : "Create Profile"}
-        </button>
-      </div>
-    </form>
+          <div className="col-12 d-flex justify-content-end gap-2 mt-4">
+            <Link to="/profiles" className="btn btn-outline-secondary">
+              Cancel
+            </Link>
+            <button
+              type="submit"
+              className="btn btn-primary px-4"
+              disabled={isSubmitting}
+            >
+              {isSubmitting && (
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )}
+              {isSubmitting
+                ? "Saving Profile..."
+                : isEdit
+                  ? "Update Profile"
+                  : "Create Profile"}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 };
 

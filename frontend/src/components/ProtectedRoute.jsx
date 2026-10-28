@@ -19,7 +19,7 @@ const ProtectedRoute = () => {
   return (
     <>
       <Navbar />
-      <main className="container">
+      <main className="container py-4 py-md-5">
         <Outlet />
       </main>
     </>

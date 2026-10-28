@@ -160,20 +160,20 @@ const FilterProfilesPage = () => {
 
   return (
     <div>
-      <div style={{ marginBottom: "1.5rem" }}>
-        <h1 style={{ fontSize: "1.75rem", fontWeight: 800 }}>Search & Filter Profiles</h1>
-        <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem" }}>
+      <div className="mb-4">
+        <h1 className="h2 fw-bold text-dark mb-1">Search & Filter Profiles</h1>
+        <p className="text-body-secondary mb-0">
           Find matches based on age ranges, gender, and shared passions
         </p>
       </div>
 
-      <div className="filter-panel">
+      <div className="card shadow-sm rounded-4 border p-4 mb-4">
         <form onSubmit={handleApplyFilters} noValidate>
           {filterError && <Alert type="danger" message={filterError} />}
 
-          <div className="filter-grid">
-            <div className="form-group">
-              <label htmlFor="filter-min-age" className="form-label">
+          <div className="row g-3">
+            <div className="col-12 col-md-4">
+              <label htmlFor="filter-min-age" className="form-label fw-semibold">
                 Min Age
               </label>
               <input
@@ -184,12 +184,12 @@ const FilterProfilesPage = () => {
                 value={minAge}
                 onChange={(e) => setMinAge(e.target.value)}
                 placeholder="18"
-                className="form-input"
+                className="form-control"
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="filter-max-age" className="form-label">
+            <div className="col-12 col-md-4">
+              <label htmlFor="filter-max-age" className="form-label fw-semibold">
                 Max Age
               </label>
               <input
@@ -200,12 +200,12 @@ const FilterProfilesPage = () => {
                 value={maxAge}
                 onChange={(e) => setMaxAge(e.target.value)}
                 placeholder="99"
-                className="form-input"
+                className="form-control"
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="filter-gender" className="form-label">
+            <div className="col-12 col-md-4">
+              <label htmlFor="filter-gender" className="form-label fw-semibold">
                 Gender
               </label>
               <select
@@ -222,63 +222,67 @@ const FilterProfilesPage = () => {
                 ))}
               </select>
             </div>
-          </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
-            <TagInput
-              id="filter-hobbies"
-              label="Hobbies (Match Any)"
-              tags={hobbies}
-              onChange={setHobbies}
-              suggestions={suggestions.hobbies}
-              placeholder="e.g. hiking, gaming"
-            />
+            <div className="col-12 col-md-4">
+              <TagInput
+                id="filter-hobbies"
+                label="Hobbies (Match Any)"
+                tags={hobbies}
+                onChange={setHobbies}
+                suggestions={suggestions.hobbies}
+                placeholder="e.g. hiking, gaming"
+              />
+            </div>
 
-            <TagInput
-              id="filter-foods"
-              label="Favourite Foods (Match Any)"
-              tags={favouriteFoods}
-              onChange={setFavouriteFoods}
-              suggestions={suggestions.foods}
-              placeholder="e.g. sushi, tacos"
-            />
+            <div className="col-12 col-md-4">
+              <TagInput
+                id="filter-foods"
+                label="Favourite Foods (Match Any)"
+                tags={favouriteFoods}
+                onChange={setFavouriteFoods}
+                suggestions={suggestions.foods}
+                placeholder="e.g. sushi, tacos"
+              />
+            </div>
 
-            <TagInput
-              id="filter-genres"
-              label="Movie Genres (Match Any)"
-              tags={movieGenres}
-              onChange={setMovieGenres}
-              suggestions={suggestions.genres}
-              placeholder="e.g. comedy, sci-fi"
-            />
-          </div>
+            <div className="col-12 col-md-4">
+              <TagInput
+                id="filter-genres"
+                label="Movie Genres (Match Any)"
+                tags={movieGenres}
+                onChange={setMovieGenres}
+                suggestions={suggestions.genres}
+                placeholder="e.g. comedy, sci-fi"
+              />
+            </div>
 
-          <div className="filter-actions" style={{ marginTop: "1rem" }}>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={handleClearFilters}
-              disabled={loading}
-            >
-              Clear Filters
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={loading}
-            >
-              Apply Filters
-            </button>
+            <div className="col-12 d-flex justify-content-end gap-2 mt-3">
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                onClick={handleClearFilters}
+                disabled={loading}
+              >
+                Clear Filters
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={loading}
+              >
+                Apply Filters
+              </button>
+            </div>
           </div>
         </form>
       </div>
 
       {error && (
-        <div style={{ marginBottom: "1.5rem" }}>
+        <div className="mb-4">
           <Alert type="danger" message={error} />
           <button
             type="button"
-            className="btn btn-secondary btn-sm"
+            className="btn btn-outline-secondary btn-sm"
             onClick={() => executeSearch({})}
           >
             Retry
@@ -296,7 +300,7 @@ const FilterProfilesPage = () => {
           action={
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-outline-secondary"
               onClick={handleClearFilters}
             >
               Reset Filters
@@ -307,17 +311,18 @@ const FilterProfilesPage = () => {
 
       {!loading && !error && profiles.length > 0 && (
         <div>
-          <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", marginBottom: "0.5rem" }}>
+          <p className="text-body-secondary small mb-3">
             Found {profiles.length} {profiles.length === 1 ? "profile" : "profiles"} matching your criteria:
           </p>
-          <div className="cards-grid">
+          <div className="row g-4">
             {profiles.map((profile) => (
-              <ProfileCard
-                key={profile.id}
-                profile={profile}
-                onDelete={handleDeleteRequest}
-                isDeleting={isDeleting && deleteTargetId === profile.id}
-              />
+              <div key={profile.id} className="col-12 col-md-6 col-xl-4">
+                <ProfileCard
+                  profile={profile}
+                  onDelete={handleDeleteRequest}
+                  isDeleting={isDeleting && deleteTargetId === profile.id}
+                />
+              </div>
             ))}
           </div>
         </div>
